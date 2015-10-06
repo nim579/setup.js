@@ -69,7 +69,7 @@ Utils =
 
     deepObjectExtend: (target, source)->
         for prop of source
-            if prop in target
+            if _.has target, prop
                 Utils.deepObjectExtend target[prop], source[prop]
 
             else
