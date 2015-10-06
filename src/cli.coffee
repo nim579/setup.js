@@ -127,5 +127,7 @@ unless actionFound
             utils.showConfig(targetSettings) if program.verbose
 
         else
-            console.log 'TODO'
+            if program.verbose
+                options = utils.getOptions program, targetSettings
+                utils.showConfig(options.config.data)
 
