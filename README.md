@@ -72,7 +72,7 @@ setup unset build.Samsung.resolutionHeight build.transport
 {
     "build": {
         "Samsung": {
-            "resolutionWidth": 720 // этот параметр, например уже был
+            "resolutionWidth": 720
         },
         "array": [1, 2, 3]
     }

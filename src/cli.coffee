@@ -28,6 +28,15 @@ program
 .option '-s, --settings [file]', 'Set path to default settings file', null
 
 
+# Дописываем в help доступные пресеты
+program.on '--help', ->
+    options = utils.getOptions program, targetSettings
+    console.log '  Available presets:'
+    console.log ''
+    for preset of options.presets.data
+        console.log '    ' + preset
+
+
 program
 .command 'init'
 .description 'Init setup module'
