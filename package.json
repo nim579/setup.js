@@ -1,0 +1,30 @@
+{
+    "name": "setup.js",
+    "version": "1.0.0",
+    "description": "Frontend projects configurator",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "postinstall": "$(npm bin)/coffee -c -o lib/ src/",
+        "setup": "$(npm bin)/setup"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@gitlab.int.ayyo.ru:frontend/setup.js.git"
+    },
+    "bin": {
+        "setup": "./bin/setup"
+    },
+    "author": "Ayyo Movies",
+    "license": "MIT",
+    "devDependencies": {
+        "coffee-script": "^1.10.0",
+        "commander": "^2.8.1",
+        "underscore": "^1.8.3"
+    },
+    "setup": {
+        "config": "config.json",
+        "presets": "environments.json",
+        "settings": "settings.json"
+    }
+}
