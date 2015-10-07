@@ -1,6 +1,9 @@
 fs   = require 'fs'
 path = require 'path'
 _    = require 'underscore'
+_d   = require 'underscore-deep-extend'
+
+_.mixin deepExtend: _d _
 
 
 Utils =
@@ -68,14 +71,7 @@ Utils =
         console.log JSON.stringify config, null, 4
 
     deepObjectExtend: (target, source)->
-        for prop of source
-            if _.has target, prop
-                Utils.deepObjectExtend target[prop], source[prop]
-
-            else
-                target[prop] = source[prop]
-
-        return target
+        return _.deepExtend {}, target, source
 
     parseString: (string)->
         return string unless _.isString string

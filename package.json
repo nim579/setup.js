@@ -1,30 +1,33 @@
 {
-    "name": "setup.js",
-    "version": "1.0.4",
-    "description": "Frontend projects configurator",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "postinstall": "coffee -c -o lib/ src/",
-        "setup": "$(npm bin)/setup"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git@gitlab.int.ayyo.ru:frontend/setup.js.git"
-    },
-    "bin": {
-        "setup": "./bin/setup"
-    },
-    "author": "Ayyo Movies",
-    "license": "MIT",
-    "devDependencies": {
-        "coffee-script": "^1.10.0",
-        "commander": "^2.8.1",
-        "underscore": "^1.8.3"
-    },
-    "setup": {
-        "config": "config.json",
-        "presets": "environments.json",
-        "settings": "settings.json"
-    }
+  "name": "setupjs",
+  "version": "1.1.0",
+  "description": "Frontend projects configurator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "coffee -c -o lib/ src/",
+    "setup": "$(npm bin)/setup"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.int.ayyo.ru:frontend/setup.js.git"
+  },
+  "bin": {
+    "setupjs": "./bin/setup.js"
+  },
+  "author": "Ayyo Movies",
+  "license": "MIT",
+  "devDependencies": {
+    "coffee-script": "^1.10.0"
+  },
+  "dependencies": {
+    "commander": "^2.8.1",
+    "underscore": "^1.8.3",
+    "underscore-deep-extend": "0.0.5"
+  },
+  "setup": {
+    "config": "config.json",
+    "presets": "environments.json",
+    "settings": "settings.json"
+  }
 }
