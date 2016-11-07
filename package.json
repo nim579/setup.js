@@ -1,25 +1,33 @@
 {
   "name": "setupjs",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Frontend projects configurator",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "coffee -c -o lib/ src/",
+    "prepublish": "rm -rf lib/ && exec $(npm bin)/coffee -c -o lib/ src/",
     "setup": "$(npm bin)/setup"
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.int.ayyo.ru:frontend/setup.js.git"
+    "url": "git@github.com:nim579/setup.js."
   },
+  "homepage": "https://github.com/nim579/setup.js",
   "bin": {
     "setupjs": "./bin/setup.js"
   },
-  "author": "Ayyo Movies",
+  "keywords": [
+    "environment",
+    "development",
+    "tools",
+    "cli",
+    "config",
+    "configurate",
+    "setup",
+    "variables",
+    "settings"
+  ],
+  "author": "Nick Iv",
   "license": "MIT",
-  "devDependencies": {
-    "coffee-script": "^1.10.0"
-  },
   "dependencies": {
     "commander": "^2.8.1",
     "underscore": "^1.8.3",
@@ -29,5 +37,15 @@
     "config": "config.json",
     "presets": "environments.json",
     "settings": "settings.json"
+  },
+  "devDependencies": {
+    "coffee-script": "^1.11.1"
+  },
+  "engines": {
+      "node": ">=4.0"
+  },
+  "directories": {
+      "bin": "./bin",
+      "lib": "./lib"
   }
 }
