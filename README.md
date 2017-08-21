@@ -150,3 +150,6 @@ Config:
     }
 }
 ```
+
+# Upgrading from 1.x to 2.x
+Rename *settings.json* to *defaults.json* and *environments.json* to *presets.json*. Run `setupjs init`.
