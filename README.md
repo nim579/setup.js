@@ -1,80 +1,152 @@
 # Setup.js
 
-## Установка
+Command line tools for config your project.
 
-Устанавливаем как обычный npm модуль.
+## Overview
 
-Далее выполняем `$(npm bin)/setupjs init`, если нужно выставляем параметры описаные ниже. Инициализатор пропишет скрипт выполнения и настройки в *package.json* проекта использующего модуль.
+**Setup.js** uses help files:
+* *defaults.json* — default config file
+* *presets.json* — file with presets for different environments
+* *env-map.json* — map for environment variables into config
 
-## Принцип работы
+**Setup.js** generates *config.json* file with current config from help files by commands `set`, `unset`, `preset`, `reset`, `env`. *config.json* may bee ignored in CVS for project.
 
-**Setup.js** пользуется тремя файлами, пути к которым берет в *package.json* — *config*, *settings* и *presets*.
+Each developer can use his own config, changing *config.json* manually or by cli tool.
 
-*Config* соответственно главный файл конфигурации проекта (по умолчанию `./config.json`). *Settings* — файл с дефолтными настройками (по умолчанию `./settings.json`). *Presets* — файл с пресетами, удобно использовать например для переключения между стендами (по умолчанию `./environments.json`).
+## Install
 
-У **Setup.js** есть команты и параметры, о них подробнее ниже. Если выполнять скрипт без команд, а просто с параметрами, то параметры будут сохранены в *package.json*. Если скрипт выполнить с командой и параметрами, то параметры будут применены к команде и сохранены не будут.
+``` bash
+npm install setupjs
+```
 
-## Вызов
+or global (not recommended)
 
-После установки **Setup.js**, его удобно можно вызывать командой `npm run setup -- ` передавая все необходимые параметры и команды как обычно.
+``` bash
+npm install -g setupjs
+```
 
-## Параметры
-* **-h, --help** — показывает хэлп
-* **-V, --version** — показывает текущую версию **Setup.js**;
-* **-v, --verbose** — показывает, что сохраняет (это может быть конфиг и *package.json* с параметрами);
-* **-c, --config [file]** — устанавливает путь до *config*-файла. Будет использован для команды, **или** сохранен в настройках;
-* **-p, --presets [file]** — устанавливает путь до *presets*-файла. Будет использован для команды, **или** сохранен в настройках;
-* **-s, --settings [file]** — устанавливает путь до *settings*-файла. Будет использован для команды, **или** сохранен в настройках.
+Initialize tools for your project:
+
+``` bash
+$(npm bin)/setupjs init
+```
+
+Customize paths to help files if needed by params `-c, -e, -p, -s`.
+
+Add *config.json* in *.gitignore*.
+
+## Use
+
+For local installation:
+``` bash
+npm run setup -- <params>
+```
+
+For global installation:
+``` bash
+setupjs <params>
+```
+
+## Params
+* **-h, --help** — show help
+* **-V, --version** — show version
+* **-v, --verbose** — run commands in verbose mode and print *config.json*
+* **-c, --config [file]** — redefine path to config file (*config.json*)
+* **-p, --presets [file]** — redefine path to presets file (*presets.json*)
+* **-e, --env-map [file]** — redefine path to environment variables map file (*env-map.json*)
+* **-d, --defaults [file]** — redefine path to default config file (*defaults.json*)
 
 ## Команды
-* **init** — инициализирует **Setup.js** в проекте;
-* **preset [name]** — настраивает конфиг из пресетов проводя deep object extend;
-* **set [varValuePairs...]** — устанавливает параметры парами;
-* **unset [vars...]** — удаляет параметры;
-* **reset** — сбрасывает конфиг до дефолтных значений.
+* `init` — init **Setup.js** in project;
+* `preset [name]` — set (extending) config from presets;
+* `set [<key> <value>]...` — set config params by key/value pairs;
+* `unset [key]...` — unset config params by keys;
+* `reset` — reset config to default params.
 
-### preset
-Настраивает конфиг на основе пресета. Файл с пресетом должен содержать в себе объект с ключами на первом уровне соответствующими названиями (см. `./examples/environments.json`). Для конфига на основе пресета проводится deep object extend, что позволяет делать пресет для любого уровня вложенности.
+### `reset`
+Reset *config.json* to config from *defaults.json*
 
-### set
-Принимает любое количество пар настроек (ключ/значение). Например:
-```
-setup set build.transport.api.url 'ws://ayyo.ru' build.Samsung.resolutionHeight 1280 build.array '[1,2,3]'
-```
-
-установит объект
+### `preset`
+Set (with deep extending) from presets file (see `./examples/environments.json`).
+First indent fields must be a names of presets. For example:
 ``` js
 {
-    "build": {
-        "transport": {
-            "api": "ws://ayyo.ru"
-        },
-        "Samsung": {
-            "resolutionHeight": 1280,
-            "resolutionWidth": 720 // этот параметр, например уже был
-        },
-        "array": [1, 2, 3]
+    "producton": { // name of preset
+        "server": {
+            "url": "https://example.com/api"
+        }
+    },
+    "staging": {  // name of preset
+        "server": {
+            "url": "https://staging.example.com/api"
+        }
     }
 }
 ```
 
-Обратите внимание, что команда автоматически пытается найти тип переданного значения. Команда создает объекты с большим уровнем вложенности, а при их существовании не испортит их, заменив только переданное значение.
+Available presets: `producton` and `staging`.
 
-### unset
-Удаляет параметры на любом уровне вложенности. Работает как set но только удаляет значения. Принимает любое количество ключей для удаления. Команда не испотрит глубокие объекты удалив только переданный ключ.
 
+### `set`
+Set (with deep extending) config key/value pairs:
+``` bash
+setupjs set server.url https://example.com/api server.producton true server timeout 5000 server.local.list `[1,3,4]`
 ```
-setup unset build.Samsung.resolutionHeight build.transport
-```
 
-В итоге получится вот такой объект (исходный из примера выше):
+Sets config.
 ``` js
 {
-    "build": {
-        "Samsung": {
-            "resolutionWidth": 720
+    "server": {
+        "url": "https://example.com/api",
+        "producton": true,
+        "timeout": 5000,
+        "local": {
+            "list": [1, 3, 4]
+        }
+    }
+}
+```
+
+Tool set value type automaticly.
+
+Next call:
+``` js
+setupjs server.url https://staging.example.com/api server.flags.one true server.local null debug true
+```
+
+Config:
+``` js
+{
+    "server": {
+        "url": "https://staging.example.com/api",
+        "producton": true,
+        "timeout": 5000,
+        "flags": {
+            "one": true
         },
-        "array": [1, 2, 3]
+        "local": null
+    },
+    "debug": true
+}
+```
+
+
+### `unset`
+Remove (with deep extending) params by keys.
+
+For example (config from `set` examples):
+
+``` bash
+setupjs unset debug server.flags server.producton
+```
+
+Config:
+``` js
+{
+    "server": {
+        "url": "https://staging.example.com/api",
+        "timeout": 5000,
+        "local": null
     }
 }
 ```

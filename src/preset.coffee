@@ -11,4 +11,3 @@ Preset = (config, presets, name)->
 
 
 module.exports = Preset
-
