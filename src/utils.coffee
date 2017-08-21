@@ -21,9 +21,9 @@ Utils =
         envMapPath = targetSettings.setup.envMap if targetSettings.setup?.envMap
         envMapPath = program.envMap if program.envMap
 
-        settingsPath = 'settings.json'
-        settingsPath = targetSettings.setup.settings if targetSettings.setup?.settings
-        settingsPath = program.settings if program.settings
+        defaultsPath = 'defaults.json'
+        defaultsPath = targetSettings.setup.defaults if targetSettings.setup?.defaults
+        defaultsPath = program.defaults if program.defaults
 
         configPath = path.resolve process.cwd(), configPath
         config = Utils.load configPath
@@ -34,17 +34,17 @@ Utils =
         envMapPath = path.resolve process.cwd(), envMapPath
         envMap = Utils.load envMapPath
 
-        settingsPath = path.resolve process.cwd(), settingsPath
-        settings = Utils.load settingsPath
+        defaultsPath = path.resolve process.cwd(), defaultsPath
+        defaults = Utils.load defaultsPath
 
         options =
             config:
                 path: configPath
                 data: config
 
-            settings:
-                path: settingsPath
-                data: settings
+            defaults:
+                path: defaultsPath
+                data: defaults
 
             presets:
                 path: presetsPath

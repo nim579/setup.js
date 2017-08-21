@@ -28,7 +28,7 @@ CLI = ->
     .option '-c, --config [file]', 'Set path to config file', null
     .option '-e, --env-map [file]', 'Set path to env map file', null
     .option '-p, --presets [file]', 'Set path to preset file', null
-    .option '-s, --settings [file]', 'Set path to default settings file', null
+    .option '-d, --defaults [file]', 'Set path to default defaults file', null
 
 
     # Дописываем в help доступные пресеты
@@ -51,12 +51,12 @@ CLI = ->
             config: if program.config then program.config else 'config.json'
             presets: if program.presets then program.presets else 'presets.json'
             envMap: if program.envMap then program.envMap else 'env-map.json'
-            settings: if program.settings then program.settings else 'settings.json'
+            defaults: if program.defaults then program.defaults else 'defaults.json'
 
         targetSettings.scripts = _.extend targetSettings.scripts,
             setup: 'setupjs'
 
-        options.config.data = actionReset options.config.data, options.settings.data
+        options.config.data = actionReset options.config.data, options.defaults.data
 
         utils.saveObject targetSettings, targetPkgPath
         utils.showConfig(targetSettings) if program.verbose
@@ -124,7 +124,7 @@ CLI = ->
         actionFound = true
         options = utils.getOptions program, targetSettings
 
-        options.config.data = actionReset options.config.data, options.settings.data
+        options.config.data = actionReset options.config.data, options.defaults.data
 
         utils.saveConfig options.config.data, options.config.path
         utils.showConfig(options.config.data) if program.verbose
@@ -135,11 +135,11 @@ CLI = ->
 
     unless actionFound
         if targetSettings.setup
-            if program.config or program.presets or program.settings
+            if program.config or program.presets or program.defaults
                 targetSettings.setup.config = program.config if program.config
                 targetSettings.setup.presets = program.presets if program.presets
                 targetSettings.setup.envMap = program.envMap if program.envMap
-                targetSettings.setup.settings = program.settings if program.settings
+                targetSettings.setup.defaults = program.defaults if program.defaults
 
                 utils.saveObject targetSettings, targetPkgPath
                 utils.showConfig(targetSettings) if program.verbose

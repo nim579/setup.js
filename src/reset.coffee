@@ -1,5 +1,5 @@
-Reset = (config, settings)->
-    config = settings
+Reset = (config, defaults)->
+    config = defaults
     return config
 
 

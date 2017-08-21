@@ -48,6 +48,6 @@
         "config": "examples/config.json",
         "presets": "examples/presets.json",
         "envMap": "examples/env-map.json",
-        "settings": "examples/settings.json"
+        "defaults": "examples/defaults.json"
     }
 }
