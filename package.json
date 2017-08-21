@@ -1,51 +1,53 @@
 {
-  "name": "setupjs",
-  "version": "1.1.2",
-  "description": "Frontend projects configurator",
-  "main": "index.js",
-  "scripts": {
-    "prepublish": "rm -rf lib/ && exec $(npm bin)/coffee -c -o lib/ src/",
-    "setup": "$(npm bin)/setup"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:nim579/setup.js.git"
-  },
-  "homepage": "https://github.com/nim579/setup.js",
-  "bin": {
-    "setupjs": "./bin/setup.js"
-  },
-  "keywords": [
-    "environment",
-    "development",
-    "tools",
-    "cli",
-    "config",
-    "configurate",
-    "setup",
-    "variables",
-    "settings"
-  ],
-  "author": "Nick Iv",
-  "license": "MIT",
-  "dependencies": {
-    "commander": "^2.8.1",
-    "underscore": "^1.8.3",
-    "underscore-deep-extend": "0.0.5"
-  },
-  "setup": {
-    "config": "config.json",
-    "presets": "environments.json",
-    "settings": "settings.json"
-  },
-  "devDependencies": {
-    "coffee-script": "^1.11.1"
-  },
-  "engines": {
-      "node": ">=4.0"
-  },
-  "directories": {
-      "bin": "./bin",
-      "lib": "./lib"
-  }
+    "name": "setupjs",
+    "version": "1.1.2",
+    "description": "Frontend projects configurator",
+    "main": "index.js",
+    "scripts": {
+        "prepublish": "npm run build",
+        "build": "rm -rf lib/ && exec $(npm bin)/coffee -c -o lib/ src/",
+        "setup": "setupjs"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:nim579/setup.js.git"
+    },
+    "homepage": "https://github.com/nim579/setup.js",
+    "bin": {
+        "setupjs": "./bin/setup.js"
+    },
+    "keywords": [
+        "environment",
+        "development",
+        "tools",
+        "cli",
+        "config",
+        "configurate",
+        "setup",
+        "variables",
+        "settings"
+    ],
+    "author": "Nick Iv",
+    "license": "MIT",
+    "dependencies": {
+        "commander": "^2.11.0",
+        "underscore": "^1.8.3",
+        "underscore-deep-extend": "^1.1.5"
+    },
+    "devDependencies": {
+        "coffee-script": "^1.12.7"
+    },
+    "engines": {
+        "node": ">=4.0"
+    },
+    "directories": {
+        "bin": "./bin",
+        "lib": "./lib"
+    },
+    "setup": {
+        "config": "examples/config.json",
+        "presets": "examples/presets.json",
+        "envMap": "examples/env-map.json",
+        "settings": "examples/settings.json"
+    }
 }

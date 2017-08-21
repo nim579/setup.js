@@ -10,15 +10,19 @@ Utils =
     getOptions: (program, targetSettings)->
         # Загружаем настройки и конфиги
         configPath = 'config.json'
-        configPath = targetSettings.setup.config if targetSettings.setup and targetSettings.setup.config
+        configPath = targetSettings.setup.config if targetSettings.setup?.config
         configPath = program.config if program.config
 
-        presetsPath = 'environments.json'
-        presetsPath = targetSettings.setup.presets if targetSettings.setup and targetSettings.setup.presets
+        presetsPath = 'presets.json'
+        presetsPath = targetSettings.setup.presets if targetSettings.setup?.presets
         presetsPath = program.presets if program.presets
 
+        envMapPath = 'env-map.json'
+        envMapPath = targetSettings.setup.envMap if targetSettings.setup?.envMap
+        envMapPath = program.envMap if program.envMap
+
         settingsPath = 'settings.json'
-        settingsPath = targetSettings.setup.settings if targetSettings.setup and targetSettings.setup.settings
+        settingsPath = targetSettings.setup.settings if targetSettings.setup?.settings
         settingsPath = program.settings if program.settings
 
         configPath = path.resolve process.cwd(), configPath
@@ -26,6 +30,9 @@ Utils =
 
         presetsPath = path.resolve process.cwd(), presetsPath
         presets = Utils.load presetsPath
+
+        envMapPath = path.resolve process.cwd(), envMapPath
+        envMap = Utils.load envMapPath
 
         settingsPath = path.resolve process.cwd(), settingsPath
         settings = Utils.load settingsPath
@@ -42,6 +49,10 @@ Utils =
             presets:
                 path: presetsPath
                 data: presets
+
+            envMap:
+                path: envMapPath
+                data: envMap
 
         return options
 
@@ -81,7 +92,7 @@ Utils =
 
         catch e
             result = string
-        
+
         return result
 
 

@@ -9,7 +9,7 @@
         }
     },
     "stable": {
-        "stable": false,
+        "stable": true,
         "test": {
             "data": [
                 1, 2

@@ -9,6 +9,7 @@ actionSet    = require './set'
 actionUnset  = require './unset'
 actionReset  = require './reset'
 actionPreset = require './preset'
+actionEnv    = require './env'
 
 
 CLI = ->
@@ -25,6 +26,7 @@ CLI = ->
     .version pkg.version
     .option '-v, --verbose', 'Verbose mode'
     .option '-c, --config [file]', 'Set path to config file', null
+    .option '-e, --env-map [file]', 'Set path to env map file', null
     .option '-p, --presets [file]', 'Set path to preset file', null
     .option '-s, --settings [file]', 'Set path to default settings file', null
 
@@ -47,7 +49,8 @@ CLI = ->
 
         targetSettings.setup =
             config: if program.config then program.config else 'config.json'
-            presets: if program.presets then program.presets else 'environments.json'
+            presets: if program.presets then program.presets else 'presets.json'
+            envMap: if program.envMap then program.envMap else 'env-map.json'
             settings: if program.settings then program.settings else 'settings.json'
 
         targetSettings.scripts = _.extend targetSettings.scripts,
@@ -102,6 +105,19 @@ CLI = ->
 
 
     program
+    .command 'env'
+    .description 'Set values from environment variables'
+    .action ->
+        actionFound = true
+        options = utils.getOptions program, targetSettings
+
+        options.config.data = actionEnv options.config.data, process.env, options.envMap.data
+
+        utils.saveConfig options.config.data, options.config.path
+        utils.showConfig(options.config.data) if program.verbose
+
+
+    program
     .command 'reset'
     .description 'Reset all values to defaults'
     .action ->
@@ -122,6 +138,7 @@ CLI = ->
             if program.config or program.presets or program.settings
                 targetSettings.setup.config = program.config if program.config
                 targetSettings.setup.presets = program.presets if program.presets
+                targetSettings.setup.envMap = program.envMap if program.envMap
                 targetSettings.setup.settings = program.settings if program.settings
 
                 utils.saveObject targetSettings, targetPkgPath
