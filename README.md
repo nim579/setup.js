@@ -60,7 +60,7 @@ setupjs <params>
 * **-e, --env-map [file]** — redefine path to environment variables map file (*env-map.json*)
 * **-d, --defaults [file]** — redefine path to default config file (*defaults.json*)
 
-## Команды
+## Commands
 * `init` — init **Setup.js** in project;
 * `env` — config from environment variables mapped by *env-map.json*;
 * `extend [path]` — extend config from JSON file;
@@ -262,6 +262,9 @@ Config:
     }
 }
 ```
+
+# Releases
+See releases on [Releases page](https://github.com/nim579/setup.js/releases).
 
 # Upgrading from 1.x to 2.x
 Rename *settings.json* to *defaults.json* and *environments.json* to *presets.json*. Run `setupjs init`.
