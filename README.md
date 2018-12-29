@@ -5,7 +5,7 @@ Command line tools for config your project.
 ## Overview
 
 **Setup.js** uses help files:
-* *defaults.json* — default config file
+* *defaults.json* — default config file
 * *presets.json* — file with presets for different environments
 * *env-map.json* — map for environment variables into config
 
