@@ -9,7 +9,7 @@ Command line tools for config your project.
 * *presets.json* — file with presets for different environments
 * *env-map.json* — map for environment variables into config
 
-**Setup.js** generates *config.json* file with current config from help files by commands `set`, `unset`, `preset`, `reset`, `env`. *config.json* may bee ignored in CVS for project.
+**Setup.js** generates *config.json* file with current config from help files by commands `set`, `unset`, `preset`, `reset`, `env`, `extend`. *config.json* may bee ignored in CVS for project.
 
 Each developer can use his own config, changing *config.json* manually or by cli tool.
 
@@ -63,6 +63,7 @@ setupjs <params>
 ## Команды
 * `init` — init **Setup.js** in project;
 * `env` — config from environment variables mapped by *env-map.json*;
+* `extend [path]` — extend config from JSON file;
 * `preset [name]` — set (extending) config from presets;
 * `set [<key> <value>]...` — set config params by key/value pairs;
 * `unset [key]...` — unset config params by keys;
@@ -146,24 +147,64 @@ Config:
 ```
 
 
+### `extend`
+Extend config from some JSON file.
+
+Example file *extend_example.json*:
+``` js
+{
+    "server": {
+        "port": 8888,
+        "flags": {
+            "two": true
+        },
+        "remote": [1, 2, 3]
+    }
+}
+```
+
+Use exapmpe:
+``` bash
+setupjs extend ./extend_example.json
+```
+
+Config:
+``` js
+{
+    "server": {
+        "url": "https://staging.example.com/api",
+        "host": "127.0.0.11",
+        "port": 8888,
+        "flags": {
+            "one": false,
+            "two": true
+        },
+        "remote": [1, 2, 3]
+    }
+}
+```
+
+
 ### `set`
 Set (with deep extending) config key/value pairs:
 ``` bash
 setupjs set server.url https://example.com/api server.producton true server timeout 5000 server.local.list `[1,3,4]`
 ```
 
-Sets config.
+Config:
 ``` js
 {
     "server": {
         "url": "https://example.com/api",
         "host": "127.0.0.11",
-        "port": 8080,
+        "port": 8888,
         "producton": true,
         "timeout": 5000,
         "flags": {
-            "one": false
+            "one": false,
+            "two": true
         },
+        "remote": [1, 2, 3],
         "local": {
             "list": [1, 3, 4]
         }
@@ -188,8 +229,10 @@ Config:
         "producton": true,
         "timeout": 5000,
         "flags": {
-            "one": true
+            "one": true,
+            "two": true
         },
+        "remote": [1, 2, 3],
         "local": null
     },
     "debug": true
@@ -214,6 +257,7 @@ Config:
         "host": "127.0.0.11",
         "port": 8080,
         "timeout": 5000,
+        "remote": [1, 2, 3],
         "local": null
     }
 }

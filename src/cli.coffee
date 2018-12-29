@@ -10,6 +10,7 @@ actionUnset  = require './unset'
 actionReset  = require './reset'
 actionPreset = require './preset'
 actionEnv    = require './env'
+actionExtend = require './extend'
 
 
 CLI = ->
@@ -116,6 +117,17 @@ CLI = ->
         utils.saveConfig options.config.data, options.config.path
         utils.showConfig(options.config.data) if program.verbose
 
+    program
+    .command 'extend [path]'
+    .description 'Extend config from json file'
+    .action (filePath)->
+        actionFound = true
+        options = utils.getOptions program, targetSettings
+
+        options.config.data = actionExtend options.config.data, filePath
+
+        utils.saveConfig options.config.data, options.config.path
+        utils.showConfig(options.config.data) if program.verbose
 
     program
     .command 'reset'
