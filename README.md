@@ -19,16 +19,20 @@ Each developer can use his own config, changing *config.json* manually or by cli
 npm install setupjs
 ```
 
-or global (not recommended)
+or global
 
 ``` bash
 npm install -g setupjs
 ```
 
 Initialize tools for your project:
-
 ``` bash
 $(npm bin)/setupjs init
+```
+
+For global:
+``` bash
+setupjs init
 ```
 
 Customize paths to help files if needed by params `-c, -e, -p, -s`.
@@ -58,6 +62,7 @@ setupjs <params>
 
 ## Команды
 * `init` — init **Setup.js** in project;
+* `env` — config from environment variables mapped by *env-map.json*;
 * `preset [name]` — set (extending) config from presets;
 * `set [<key> <value>]...` — set config params by key/value pairs;
 * `unset [key]...` — unset config params by keys;
@@ -65,6 +70,7 @@ setupjs <params>
 
 ### `reset`
 Reset *config.json* to config from *defaults.json*
+
 
 ### `preset`
 Set (with deep extending) from presets file (see `./examples/environments.json`).
@@ -87,6 +93,59 @@ First indent fields must be a names of presets. For example:
 Available presets: `producton` and `staging`.
 
 
+Use example:
+``` bash
+setupjs preset staging
+```
+
+Config:
+``` js
+{
+    "server": {
+        "url": "https://staging.example.com/api"
+    }
+}
+```
+
+
+### `env`
+Update config from environment variables:
+``` bash
+setupjs env
+```
+
+*env-map.json* example:
+``` js
+{
+    "HOST": "server.host",
+    "PORT": "server.port",
+    "FLAG_ONE": "server.flags.one"
+}
+```
+
+Use example:
+``` bash
+export HOST=127.0.0.11
+export PORT=8080
+export FLAG_ONE=false
+setupjs env
+```
+
+Config:
+``` js
+{
+    "server": {
+        "url": "https://staging.example.com/api",
+        "host": "127.0.0.11",
+        "port": 8080,
+        "flags": {
+            "one": false
+        }
+    }
+}
+```
+
+
 ### `set`
 Set (with deep extending) config key/value pairs:
 ``` bash
@@ -98,8 +157,13 @@ Sets config.
 {
     "server": {
         "url": "https://example.com/api",
+        "host": "127.0.0.11",
+        "port": 8080,
         "producton": true,
         "timeout": 5000,
+        "flags": {
+            "one": false
+        },
         "local": {
             "list": [1, 3, 4]
         }
@@ -110,8 +174,8 @@ Sets config.
 Tool set value type automaticly.
 
 Next call:
-``` js
-setupjs server.url https://staging.example.com/api server.flags.one true server.local null debug true
+``` bash
+setupjs set server.url https://staging.example.com/api server.flags.one true server.local null debug true
 ```
 
 Config:
@@ -119,6 +183,8 @@ Config:
 {
     "server": {
         "url": "https://staging.example.com/api",
+        "host": "127.0.0.11",
+        "port": 8080,
         "producton": true,
         "timeout": 5000,
         "flags": {
@@ -145,6 +211,8 @@ Config:
 {
     "server": {
         "url": "https://staging.example.com/api",
+        "host": "127.0.0.11",
+        "port": 8080,
         "timeout": 5000,
         "local": null
     }
