@@ -1,25 +1,18 @@
-_     = require 'underscore'
+_     = require 'lodash'
 utils = require './utils'
+
 
 Env = (config, env, map)->
     if not _.isObject(map) or _.isEmpty(map)
-        console.log 'Environment vars not defined'
-        return config
+        throw new Error 'Invalid or empty env maps'
 
-    for envName, param of map
-        if env[envName]?
-            configItem = config
-            paramName = param.split '.'
+    config = _.cloneDeep config
 
-            for paramPart, index in paramName
-                if index < paramName.length - 1
-                    if typeof configItem[paramPart] isnt 'object'
-                        configItem[paramPart] = {}
+    _.forEach map, (pathStr, key)->
+        paths = pathStr.split(/,\s{0,}/)
 
-                    configItem = configItem[paramPart]
-
-                else
-                    configItem[paramPart] = utils.parseString env[envName]
+        _.forEach paths, (path)->
+            _.set config, path, utils.parseString env[key] if env[key]?
 
     return config
 

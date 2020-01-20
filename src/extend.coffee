@@ -1,31 +1,29 @@
-_     = require 'underscore'
+_     = require 'lodash'
 fs    = require 'fs'
 path  = require 'path'
 utils = require './utils'
+
 
 Extend = (config, filePath)->
     extend = {}
 
     unless filePath
-        console.log 'No file for extending'
-        return config
+        throw new Error 'No file for extending'
 
     rootPath = path.resolve process.cwd(), filePath
 
     unless fs.existsSync rootPath
-        console.log 'File for extending not found'
-        return config
+        throw new Error 'File for extending not found'
 
     try
         file = fs.readFileSync(rootPath).toString()
         extend = JSON.parse file
 
     catch
-        console.log "Can't load or parse extending file"
-        return config
+        throw new Error 'Can\'t load or parse extending file'
 
-    config = utils.deepObjectExtend config, extend
-    return config
+    config = _.cloneDeep config
+    return utils.merge config, extend
 
 
 module.exports = Extend

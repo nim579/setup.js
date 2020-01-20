@@ -1,6 +1,5 @@
-Reset = (config, defaults)->
-    config = defaults
-    return config
+Reset = (config, defaults = {})->
+    return defaults
 
 
 module.exports = Reset

@@ -1,13 +1,14 @@
-_     = require 'underscore'
+_ = require 'lodash'
 utils = require './utils'
 
-Preset = (config, presets, name)->
-    if not _.isEmpty(presets) and name and presets[name]
-        config = utils.deepObjectExtend config, presets[name]
+
+Preset = (config, presets = {}, name)->
+    if presets?[name]
+        config = _.cloneDeep config
+        config = utils.merge config, presets[name], utils.mergeCustomizerArray
 
     else
-        console.log 'No presets found'
-        return config
+        throw new Error 'No presets found'
 
 
 module.exports = Preset

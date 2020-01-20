@@ -1,0 +1,7 @@
+{
+    "reporter": ["text", "lcov"],
+    "require": ["coffeescript/register", "coffee-coverage/register"],
+    "extension": ["coffee"],
+    "sourceMap": false,
+    "instrument": false
+}

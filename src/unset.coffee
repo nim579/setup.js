@@ -1,26 +1,14 @@
-Unset = (config, vars)->
+_ = require 'lodash'
+
+
+Unset = (config, vars = [])->
     if vars.length is 0
-        console.log 'No parameters found'
-        return false
+        throw new Error 'No parameters found'
 
-    i = 0
-    while i < vars.length
-        paramName = vars[i].split '.'
-        configItem = config
+    config = _.cloneDeep config
 
-        j = 0
-        while j < paramName.length
-            if j < paramName.length - 1
-                break if typeof configItem[paramName[j]] isnt 'object'
-
-                configItem = configItem[paramName[j]]
-
-            else
-                delete configItem[paramName[j]]
-
-            j++
-
-        i++
+    _.forEach vars, (key)->
+        _.unset config, key
 
     return config
 

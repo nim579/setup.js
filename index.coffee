@@ -5,4 +5,4 @@ module.exports =
     Preset: require './lib/preset'
     Env:    require './lib/env'
     Utils:  require './lib/utils'
-    CLI:    require './lib/cli
+    CLI:    require './lib/cli'

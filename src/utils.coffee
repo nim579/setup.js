@@ -1,11 +1,10 @@
+_    = require 'lodash'
 fs   = require 'fs'
 path = require 'path'
-_    = require 'underscore'
-_d   = require 'deep-extend'
 
 
 Utils =
-    getOptions: (program, targetSettings)->
+    getOptions: (program = {}, targetSettings = {})->
         # Загружаем настройки и конфиги
         configPath = 'config.json'
         configPath = targetSettings.setup.config if targetSettings.setup?.config
@@ -62,25 +61,24 @@ Utils =
             config = require pathName
 
         catch e
-            console.error 'No existing config in ' + path.basename pathName
+            throw new Error 'No existing config in ' + path.basename pathName
 
         return config
 
     saveConfig: (config, pathName)->
-        fs.writeFile pathName, JSON.stringify(config, null, 4), (err)->
-            throw err if err
-            console.log 'Setup done'
+        new Promise (resolve, reject)->
+            fs.writeFile pathName, JSON.stringify(config, null, 4), (err)->
+                return reject err if err
+                return resolve()
 
     saveObject: (object, pathName)->
-        fs.writeFile pathName, JSON.stringify(object, null, 4), (err)->
-            throw err if err
-            console.log 'Saved ' + path.basename(pathName)
+        new Promise (resolve, reject)->
+            fs.writeFile pathName, JSON.stringify(object, null, 4), (err)->
+                return reject err if err
+                return resolve()
 
     showConfig: (config)->
         console.log JSON.stringify config, null, 4
-
-    deepObjectExtend: (target, source)->
-        return _d target, source
 
     parseString: (string)->
         return string unless _.isString string
@@ -92,6 +90,11 @@ Utils =
             result = string
 
         return result
+
+    merge: (object, source)->
+        return _.mergeWith object, source, (objValue, srcValue)->
+            if _.isArray(objValue) and _.isArray(srcValue)
+                return srcValue
 
 
 module.exports = Utils

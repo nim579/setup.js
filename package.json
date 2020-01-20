@@ -4,9 +4,10 @@
     "description": "Frontend projects configurator",
     "main": "index.js",
     "scripts": {
-        "prepublish": "npm run build",
-        "build": "rm -rf lib/ && exec $(npm bin)/coffee -c -o lib/ src/",
-        "setup": "setupjs"
+        "test": "mocha",
+        "setup": "setupjs",
+        "build": "rm -rf lib/ && npx coffee -c -o lib/ src/",
+        "prepublish": "npm run build"
     },
     "repository": {
         "type": "git",
@@ -30,15 +31,15 @@
     "author": "Nick Iv",
     "license": "MIT",
     "dependencies": {
-        "commander": "^2.11.0",
-        "deep-extend": "^0.6.0",
-        "underscore": "^1.8.3"
+        "commander": "^4.1.0",
+        "lodash": "^4.17.15"
     },
     "devDependencies": {
-        "coffee-script": "^1.12.7"
+        "coffeescript": "^2.5.0",
+        "mocha": "^7.0.0"
     },
     "engines": {
-        "node": ">=4.0"
+        "node": ">=10.0"
     },
     "directories": {
         "bin": "./bin",
@@ -49,5 +50,13 @@
         "presets": "examples/presets.json",
         "envMap": "examples/env-map.json",
         "defaults": "examples/defaults.json"
+    },
+    "mocha": {
+        "require": [
+            "coffeescript/register"
+        ],
+        "extension": [
+            "coffee"
+        ]
     }
 }

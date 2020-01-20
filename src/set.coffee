@@ -1,33 +1,19 @@
+_ = require 'lodash'
 utils = require './utils'
 
-Set = (config, varValuePairs)->
+
+Set = (config, varValuePairs = [])->
     if varValuePairs.length is 0
-        console.log 'No parameters found'
-        return config
+        throw new Error 'No parameters found'
 
     if varValuePairs.length % 2 isnt 0
-        console.log 'Parameters count is not even'
-        return config
+        throw new Error 'Parameters count is not even'
 
-    i = 0
-    while i < varValuePairs.length
-        paramName = varValuePairs[i].split '.'
-        configItem = config
+    config = _.cloneDeep config
+    pairs  = _.chunk(varValuePairs, 2)
 
-        j = 0
-        while j < paramName.length
-            if j < paramName.length - 1
-                if typeof configItem[paramName[j]] isnt 'object'
-                    configItem[paramName[j]] = {}
-
-                configItem = configItem[paramName[j]]
-
-            else
-                configItem[paramName[j]] = utils.parseString varValuePairs[i+1]
-
-            j++
-
-        i += 2
+    _.forEach pairs, (pair)->
+        _.set config, pair[0],  utils.parseString pair[1]
 
     return config
 
