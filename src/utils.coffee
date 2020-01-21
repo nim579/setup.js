@@ -22,17 +22,25 @@ Utils =
         defaultsPath = targetSettings.setup.defaults if targetSettings.setup?.defaults
         defaultsPath = program.defaults if program.defaults
 
+        load = (filePath)->
+            try
+                return Utils.load filePath
+
+            catch e
+                console.error e.message
+                return {}
+
         configPath = path.resolve process.cwd(), configPath
-        config = Utils.load configPath
+        config = load configPath
 
         presetsPath = path.resolve process.cwd(), presetsPath
-        presets = Utils.load presetsPath
+        presets = load presetsPath
 
         envMapPath = path.resolve process.cwd(), envMapPath
-        envMap = Utils.load envMapPath
+        envMap = load envMapPath
 
         defaultsPath = path.resolve process.cwd(), defaultsPath
-        defaults = Utils.load defaultsPath
+        defaults = load defaultsPath
 
         options =
             config:
