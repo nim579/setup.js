@@ -1,6 +1,6 @@
 {
     "name": "setupjs",
-    "version": "2.2.0",
+    "version": "2.2.1",
     "description": "Frontend projects configurator",
     "main": "index.js",
     "scripts": {
